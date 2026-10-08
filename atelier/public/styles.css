@@ -125,7 +125,7 @@ button:hover {
 
 button:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid #e2a83b;
+  outline: 3px solid #8a5a00;
   outline-offset: 3px;
 }
 
