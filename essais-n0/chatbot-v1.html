@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Refuge animaux — assistant</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      font-family: system-ui, sans-serif;
+      color: #243127;
+      background: #f4efe5;
+    }
+    main {
+      width: min(42rem, 100%);
+      margin: auto;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      background: white;
+      box-shadow: 0 1rem 2.5rem rgb(42 54 44 / 12%);
+    }
+    h1 { margin-top: 0; color: #2f6b4f; }
+    #messages {
+      min-height: 14rem;
+      max-height: 24rem;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      overflow-y: auto;
+      border: 1px solid #cbd7ce;
+      border-radius: .75rem;
+      list-style: none;
+      background: #fbfdfb;
+    }
+    #messages li { margin-bottom: .8rem; line-height: 1.45; }
+    form { display: grid; gap: .75rem; }
+    textarea {
+      width: 100%;
+      min-height: 6rem;
+      padding: .75rem;
+      border: 1px solid #75877a;
+      border-radius: .5rem;
+      font: inherit;
+      resize: vertical;
+    }
+    button {
+      justify-self: start;
+      padding: .7rem 1.1rem;
+      border: 0;
+      border-radius: .5rem;
+      color: white;
+      background: #2f6b4f;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover { background: #24543e; }
+    button:focus-visible, textarea:focus-visible {
+      outline: 3px solid #e2a83b;
+      outline-offset: 2px;
+    }
+    #status { min-height: 1.5rem; color: #7a3427; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Assistant du refuge</h1>
+    <p>Posez une question sur l'adoption, les visites ou les besoins d'un animal.</p>
+
+    <ul id="messages" aria-label="Conversation">
+      <li><strong>Assistant :</strong> Bonjour ! Comment puis-je vous aider ?</li>
+    </ul>
+
+    <form id="chat-form">
+      <label for="message">Votre message</label>
+      <textarea id="message" name="message" required></textarea>
+      <button type="submit">Envoyer</button>
+    </form>
+    <p id="status" role="status"></p>
+  </main>
+
+  <script>
+    const form = document.querySelector('#chat-form');
+    const field = document.querySelector('#message');
+    const messages = document.querySelector('#messages');
+    const status = document.querySelector('#status');
+
+    function answer(message) {
+      const normalized = message.toLowerCase();
+
+      if (normalized.includes('adopt')) {
+        return "Pour adopter, commencez par rencontrer l'animal, échangez avec l'équipe du refuge et préparez les justificatifs demandés.";
+      }
+      if (normalized.includes('visit') || normalized.includes('horaire')) {
+        return "Les horaires varient selon le refuge. Consultez ses informations pratiques ou contactez son équipe avant de vous déplacer.";
+      }
+      if (normalized.includes('besoin') || normalized.includes('nourriture') || normalized.includes('soin')) {
+        return "Un animal a notamment besoin d'une alimentation adaptée, de soins vétérinaires, d'activité, de sécurité et d'attention.";
+      }
+      return "Je peux vous renseigner sur l'adoption, les visites et les besoins essentiels d'un animal.";
+    }
+
+    function addMessage(author, text) {
+      const item = document.createElement('li');
+      const label = document.createElement('strong');
+      label.textContent = `${author} : `;
+      item.append(label, document.createTextNode(text));
+      messages.append(item);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const message = field.value.trim();
+
+      if (!message) {
+        status.textContent = 'Écrivez un message avant de l’envoyer.';
+        field.focus();
+        return;
+      }
+
+      status.textContent = '';
+      addMessage('Vous', message);
+      addMessage('Assistant', answer(message));
+      field.value = '';
+      field.focus();
+    });
+  </script>
+</body>
+</html>
