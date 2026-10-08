@@ -43,3 +43,20 @@ node --test tests/contrat/brain.contrat.test.js
 - `public/js/brain.js` contient les règles pures : validation du message et choix de la réponse. Il ne touche jamais au DOM.
 - `public/js/view.js` construit l'affichage de la conversation avec du texte sûr. Il ne choisit aucune réponse.
 - `public/js/app.js` relie le formulaire, le cerveau, l'affichage et le stockage local. Il orchestre les événements sans fabriquer le HTML des messages.
+
+## Arborescence du projet
+
+```text
+atelier/
+├── public/               # Page, styles et JavaScript exécutés dans le navigateur
+│   ├── index.html
+│   ├── styles.css
+│   └── js/
+│       ├── app.js        # Événements, stockage et appels au serveur
+│       ├── brain.js      # Validation et réponses à règles
+│       └── view.js       # Affichage sûr de la conversation
+├── server/               # Serveur HTTP local et routes JSON
+├── tests/                # Tests Node, contrat protégé et tests unitaires
+├── browser/              # Tests de l’interface avec Playwright
+└── scripts/              # Contrôles de construction et de dépendances
+```
