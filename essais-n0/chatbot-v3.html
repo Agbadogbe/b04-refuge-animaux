@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Refuge animaux — version 3</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 2rem 1rem; font-family: system-ui, sans-serif; color: #243127; background: #f4efe5; }
+    main { width: min(42rem, 100%); margin: auto; padding: 1.5rem; border-radius: 1rem; background: white; }
+    h1 { color: #2f6b4f; }
+    #messages { min-height: 14rem; max-height: 24rem; padding: 1rem; overflow-y: auto; border: 1px solid #cbd7ce; border-radius: .75rem; list-style: none; }
+    #messages li { margin-bottom: .8rem; overflow-wrap: anywhere; }
+    form { display: grid; gap: .75rem; }
+    textarea { width: 100%; min-height: 6rem; padding: .75rem; font: inherit; }
+    .actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+    button { padding: .7rem 1.1rem; border: 0; border-radius: .5rem; color: white; background: #2f6b4f; font: inherit; font-weight: 700; cursor: pointer; }
+    #clear { background: #7a3427; }
+    :focus-visible { outline: 3px solid #e2a83b; outline-offset: 2px; }
+    #status { min-height: 1.5rem; color: #7a3427; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Assistant du refuge</h1>
+    <p>Posez une question sur l'adoption, les visites ou les besoins d'un animal.</p>
+    <ul id="messages" aria-label="Conversation"></ul>
+    <form id="chat-form">
+      <label for="message">Votre message</label>
+      <textarea id="message" name="message" required></textarea>
+      <div class="actions"><button type="submit">Envoyer</button><button type="button" id="clear">Effacer</button></div>
+    </form>
+    <p id="status" role="status"></p>
+  </main>
+  <script>
+    const key = 'refuge.chat.v3';
+    const form = document.querySelector('#chat-form');
+    const field = document.querySelector('#message');
+    const messages = document.querySelector('#messages');
+    const status = document.querySelector('#status');
+    let history = JSON.parse(localStorage.getItem(key) || '[]');
+    const answer = message => message.toLowerCase().includes('adopt')
+      ? "Pour adopter, rencontrez l'animal puis échangez avec l'équipe du refuge."
+      : message.toLowerCase().includes('visit')
+        ? "Consultez les horaires du refuge avant votre visite."
+        : message.toLowerCase().includes('besoin')
+          ? "Prévoyez alimentation, soins, activité, sécurité et attention."
+          : "Je réponds aux questions sur l'adoption, les visites et les besoins des animaux.";
+    function render() {
+      messages.replaceChildren(...history.map(entry => {
+        const item = document.createElement('li');
+        item.textContent = `${entry.author} : ${entry.text}`;
+        return item;
+      }));
+    }
+    function save() { localStorage.setItem(key, JSON.stringify(history)); render(); }
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const message = field.value.trim();
+      if (!message) { status.textContent = 'Écrivez un message.'; return; }
+      history.push({ author: 'Vous', text: message }, { author: 'Assistant', text: answer(message) });
+      save();
+      field.value = '';
+      status.textContent = '';
+      field.focus();
+    });
+    document.querySelector('#clear').addEventListener('click', () => {
+      history = [];
+      save();
+      status.textContent = 'Conversation effacée.';
+    });
+    render();
+  </script>
+</body>
+</html>
