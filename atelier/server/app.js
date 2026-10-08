@@ -21,6 +21,12 @@ const TYPES = {
   'js/view.js': 'text/javascript; charset=utf-8'
 };
 
+const CONSEILS = [
+  'Prévoyez un espace calme où l’animal pourra se reposer sans être dérangé.',
+  'Demandez au refuge quelles habitudes et quels soins conviennent à l’animal.',
+  'Préparez de l’eau fraîche et une alimentation adaptée aux besoins de l’animal.'
+];
+
 export function createApp({ publicDir, version = 'dev' } = {}) {
   const serveur = http.createServer((req, res) => {
     traiter(req, res).catch(() => {
@@ -48,6 +54,13 @@ export function createApp({ publicDir, version = 'dev' } = {}) {
     } catch {
       res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' });
       res.end('Non trouvé');
+      return;
+    }
+    if (chemin === '/api/conseil') {
+      const conseil = CONSEILS[Math.floor(Math.random() * CONSEILS.length)];
+      const corps = JSON.stringify({ conseil });
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'content-length': Buffer.byteLength(corps) });
+      res.end(methode === 'HEAD' ? '' : corps);
       return;
     }
     // Métadonnée de version fournie au démarrage.
