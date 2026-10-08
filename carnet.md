@@ -182,7 +182,7 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
 ### J1-10 · 🧪 Épreuve de l'explication — [fiche](checkpoints/J1-10-epreuve-explication.md)
 
 - [ ] Validé
-- Preuve (`npm test` vert avec cinq tests dont ma limite, commit de sauvegarde, remise faite) : `npm test` vert avec 16 tests au total : 7 tests de `brain.js` et 9 tests serveur. Historique Git local organisé par checkpoint le 8 octobre 2026 ; publication GitHub, explication et remise encore à faire.
+- Preuve (`npm test` vert avec cinq tests dont ma limite, commit de sauvegarde, remise faite) : `npm test` vert avec 16 tests au total : 7 tests de `brain.js` et 9 tests serveur. Historique Git organisé par checkpoint et publié le 8 octobre 2026 sur `https://github.com/Agbadogbe/cap-web-b04`. Explication et remise au formateur encore à faire.
 - Le test rouge : « accepte 320 caractères et refuse 321 caractères ». Après avoir changé volontairement la limite de 320 à 330, le message était `AssertionError [ERR_ASSERTION]: Expected values to be strictly equal: true !== false`, à `tests/brain.test.js:16`. Cela prouve que le test détecte réellement une limite trop élevée. La limite a été restaurée à 320 et les 16 tests sont redevenus verts.
 - Épreuve de l'explication, éditeur fermé :
   - Ce que je n'ai pas su expliquer :
