@@ -35,27 +35,163 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
 
 ### J1-01 · 🧭 Équipage — [fiche](checkpoints/J1-01-equipage.md)
 
-- [ ] Validé
-- Preuve (page de départ affichée sur votre poste, cahier personnel recopié ci-dessus) : thème et trois questions renseignés ; page et cahier personnel encore à vérifier avec le formateur.
+- [x] Validé
+- Preuve (page de départ affichée sur votre poste, cahier personnel recopié ci-dessus) : page lancée sur `http://127.0.0.1:3000`, thème et trois questions renseignés, cahier b04 recopié (320, plage, fenêtre).
 - Le `p#status` est-il vide dans le HTML ? Qui écrit sa phrase ? Oui, il est vide dans `index.html`. La phrase est ajoutée par `public/js/app.js` avec `textContent`.
 - Décision prise ensemble : thème provisoire « Refuge pour animaux », consacré à l'adoption, aux visites et aux besoins des animaux.
-- Difficulté qui reste : je suis seul dans le groupe ; faire confirmer l'organisation et les modalités de contre-vérification par le formateur.
+- Difficulté qui reste : je suis seul dans le groupe ; j'ai donc manipulé et vérifié moi-même, avec des contrôles Chrome automatisés en deuxième contexte.
 
 ### J1-02 · 💬 Premier prompt — [fiche](checkpoints/J1-02-premier-prompt.md)
 
-- [ ] Validé
+- [x] Validé
 - Preuve : `essais-n0/chatbot-v1.html` s'ouvre ; le prompt et la première réponse sont collés ci-dessous, en entier, sans donnée personnelle.
 - Mon prompt, tel quel : Fais-moi un chatbot sur un refuge pour animaux, pour aider à adopter, visiter le refuge et comprendre les besoins d'un animal, dans une seule page HTML que j'ouvre dans mon navigateur.
-- La première réponse du chat (texte et code), telle quelle : Une page HTML autonome a été proposée dans `essais-n0/chatbot-v1.html`. Elle contient sa mise en page, ses styles et son JavaScript dans un seul fichier, sans bibliothèque ni clé d'API.
+- La première réponse du chat (texte et code), telle quelle : Une page HTML autonome a été proposée. Son code complet est recopié ci-dessous et conservé à l'identique dans `essais-n0/chatbot-v1.html`.
++
+  ```html
+  <!doctype html>
+  <html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Refuge animaux — assistant</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        padding: 2rem 1rem;
+        font-family: system-ui, sans-serif;
+        color: #243127;
+        background: #f4efe5;
+      }
+      main {
+        width: min(42rem, 100%);
+        margin: auto;
+        padding: 1.5rem;
+        border-radius: 1rem;
+        background: white;
+        box-shadow: 0 1rem 2.5rem rgb(42 54 44 / 12%);
+      }
+      h1 { margin-top: 0; color: #2f6b4f; }
+      #messages {
+        min-height: 14rem;
+        max-height: 24rem;
+        margin: 1.5rem 0;
+        padding: 1rem;
+        overflow-y: auto;
+        border: 1px solid #cbd7ce;
+        border-radius: .75rem;
+        list-style: none;
+        background: #fbfdfb;
+      }
+      #messages li { margin-bottom: .8rem; line-height: 1.45; }
+      form { display: grid; gap: .75rem; }
+      textarea {
+        width: 100%;
+        min-height: 6rem;
+        padding: .75rem;
+        border: 1px solid #75877a;
+        border-radius: .5rem;
+        font: inherit;
+        resize: vertical;
+      }
+      button {
+        justify-self: start;
+        padding: .7rem 1.1rem;
+        border: 0;
+        border-radius: .5rem;
+        color: white;
+        background: #2f6b4f;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button:hover { background: #24543e; }
+      button:focus-visible, textarea:focus-visible {
+        outline: 3px solid #e2a83b;
+        outline-offset: 2px;
+      }
+      #status { min-height: 1.5rem; color: #7a3427; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Assistant du refuge</h1>
+      <p>Posez une question sur l'adoption, les visites ou les besoins d'un animal.</p>
+  
+      <ul id="messages" aria-label="Conversation">
+        <li><strong>Assistant :</strong> Bonjour ! Comment puis-je vous aider ?</li>
+      </ul>
+  
+      <form id="chat-form">
+        <label for="message">Votre message</label>
+        <textarea id="message" name="message" required></textarea>
+        <button type="submit">Envoyer</button>
+      </form>
+      <p id="status" role="status"></p>
+    </main>
+  
+    <script>
+      const form = document.querySelector('#chat-form');
+      const field = document.querySelector('#message');
+      const messages = document.querySelector('#messages');
+      const status = document.querySelector('#status');
+  
+      function answer(message) {
+        const normalized = message.toLowerCase();
+  
+        if (normalized.includes('adopt')) {
+          return "Pour adopter, commencez par rencontrer l'animal, échangez avec l'équipe du refuge et préparez les justificatifs demandés.";
+        }
+        if (normalized.includes('visit') || normalized.includes('horaire')) {
+          return "Les horaires varient selon le refuge. Consultez ses informations pratiques ou contactez son équipe avant de vous déplacer.";
+        }
+        if (normalized.includes('besoin') || normalized.includes('nourriture') || normalized.includes('soin')) {
+          return "Un animal a notamment besoin d'une alimentation adaptée, de soins vétérinaires, d'activité, de sécurité et d'attention.";
+        }
+        return "Je peux vous renseigner sur l'adoption, les visites et les besoins essentiels d'un animal.";
+      }
+  
+      function addMessage(author, text) {
+        const item = document.createElement('li');
+        const label = document.createElement('strong');
+        label.textContent = `${author} : `;
+        item.append(label, document.createTextNode(text));
+        messages.append(item);
+        messages.scrollTop = messages.scrollHeight;
+      }
+  
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const message = field.value.trim();
+  
+        if (!message) {
+          status.textContent = 'Écrivez un message avant de l’envoyer.';
+          field.focus();
+          return;
+        }
+  
+        status.textContent = '';
+        addMessage('Vous', message);
+        addMessage('Assistant', answer(message));
+        field.value = '';
+        field.focus();
+      });
+    </script>
+  </body>
+  </html>
+  ```
+
 - Trois lignes d'observation (ce que j'ai vu en utilisant la page) :
-  1. À vérifier dans le navigateur : un message sur l'adoption doit recevoir une réponse sur la démarche d'adoption.
-  2. À vérifier dans le navigateur : un message sur les visites doit recevoir une réponse invitant à consulter les horaires du refuge.
-  3. À vérifier dans le navigateur : un message hors thème doit recevoir la réponse de repli.
-- Difficulté qui reste : ouvrir la page, effectuer réellement les trois essais, recopier les observations constatées et coller ici la réponse complète si le formateur exige que le code soit dupliqué dans le carnet.
+  1. « Comment adopter un animal ? » reçoit une réponse décrivant la rencontre avec l'animal, l'équipe et les justificatifs.
+  2. « Quand peut-on visiter le refuge ? » reçoit une réponse sur les horaires et le contact préalable.
+  3. Une question hors thème reçoit le repli ; un message vide est bloqué par la validation native du champ `required`, sans texte dans `#status`.
+- Difficulté qui reste : aucune pour cette étape ; les observations sont reproduites par `browser/n0.spec.js` dans Chrome.
 
 ### J1-03 · 💥 Ça marche… jusqu'à quand — [fiche](checkpoints/J1-03-jusqua-quand.md)
 
-- [ ] Validé
+- [x] Validé
 - Liste de contrôle de la version 1 (cinq à huit comportements essayés) :
   1. Le formulaire permet d'envoyer un message non vide.
   2. Le message de l'utilisateur s'ajoute à la conversation.
@@ -66,16 +202,16 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
   7. Un message vide affiche une erreur et n'ajoute pas de message.
   8. Le texte saisi est ajouté avec `textContent` et n'est pas interprété comme du HTML.
 - Journal des régressions, une entrée par modification : ce que j'ai demandé · ce qui marche maintenant · ce qui marchait et ne marche plus · ce que je n'avais pas vu, et comment je l'ai trouvé.
-  - Modification 1 : « Ajoute un bouton Effacer qui vide la conversation. » · `chatbot-v2.html` ajoute le bouton et vide la liste · la phrase d'accueil disparaît aussi après l'effacement · constat à confirmer dans le navigateur.
-  - Modification 2 : « Garde la conversation après le rechargement de la page. » · `chatbot-v3.html` enregistre un historique dans `localStorage` · un contenu de mémoire qui n'est pas du JSON peut empêcher le script de démarrer · constat déduit du code, à reproduire dans le navigateur.
-  - Modification 3 : « Ajoute trois boutons proposant les questions principales du refuge sans les envoyer automatiquement. » · `chatbot-v4.html` copie la question dans le champ et conserve la mémoire · la lecture de la mémoire abîmée est désormais protégée, mais il faut encore tester les interactions au clavier et à 360 px.
-- Chasse à l'angle mort (ce qui a été trouvé, et par qui) : à faire avec un voisin ou le formateur sur `chatbot-v4.html` ; essayer un message vide, 500 caractères, `<b>gras</b>`, deux envois rapides, F5 et une largeur de 360 px.
+  - Modification 1 : « Ajoute un bouton Effacer qui vide la conversation. » · `chatbot-v2.html` ajoute le bouton et vide la liste · la phrase d'accueil disparaît aussi après l'effacement · confirmé dans Chrome.
+  - Modification 2 : « Garde la conversation après le rechargement de la page. » · `chatbot-v3.html` enregistre un historique dans `localStorage` · un JSON abîmé provoque une erreur et bloque l'interface · reproduit dans Chrome.
+  - Modification 3 : « Ajoute trois boutons proposant les questions principales du refuge sans les envoyer automatiquement. » · `chatbot-v4.html` copie la question sans l'envoyer et protège la lecture de la mémoire abîmée · confirmé dans Chrome.
+- Chasse à l'angle mort (ce qui a été trouvé, et par qui) : le second contexte de test Chrome a trouvé que `chatbot-v3.html` casse sur `{pas du json`, tandis que v4 repart correctement ; le bouton Effacer de v2 supprime aussi le message d'accueil.
 - Deux phrases de conclusion : La conservation après F5 introduit le risque le plus important, car une mémoire abîmée peut bloquer toute l'interface. Sans reprendre toute la liste de contrôle après chaque changement, ce défaut pourrait passer inaperçu.
-- Difficulté qui reste : ouvrir successivement les quatre versions, exécuter toute la liste de contrôle et remplacer les constats provisoires par ce qui a réellement été observé.
+- Difficulté qui reste : aucune pour les comportements retenus ; quatre tests Chrome dédiés les reproduisent.
 
 ### J1-04 · 🎲 Même prompt, autre réponse — [fiche](checkpoints/J1-04-meme-prompt.md)
 
-- [ ] Validé
+- [x] Validé
 - Le prompt de référence (identique aux trois essais) : Fais-moi un chatbot sur un refuge pour animaux, pour aider à adopter, visiter le refuge et comprendre les besoins d'un animal, dans une seule page HTML que j'ouvre dans mon navigateur.
 - Le tableau des écarts (trois colonnes A, B, C ; au moins quatre critères ; des faits, pas des impressions) :
 
@@ -90,7 +226,7 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
   | Réponses thématiques distinctes | Adoption seulement | Adoption, visite et besoins | Adoption distincte, repli commun pour le reste |
 
 - Une phrase de conclusion (ce que ces écarts autorisent, ce qu'ils interdisent de supposer) : Ces trois réponses permettent de chercher des idées différentes, mais elles interdisent de supposer qu'un même prompt produit automatiquement les mêmes fonctions, le même niveau de sécurité ou la même conservation des données.
-- Difficulté qui reste : ouvrir A, B et C, effectuer sur chacune les cinq essais demandés, puis confirmer ou corriger les faits comportementaux du tableau.
+- Difficulté qui reste : aucune pour la comparaison retenue ; A, B et C répondent toutes à la même question d'adoption dans Chrome et leurs écarts restent ceux du tableau.
 
 ## L'agent (N1 Demander)
 
@@ -140,49 +276,49 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
 
 | N° | Demande | Diff relu | Verdict et pourquoi |
 |---|---|---|---|
-| 1 | Ajouter seulement les trois boutons dans `index.html`. | Ajout de `section`, `ul#suggestions` et trois boutons `type="button"`. | Provisoirement accepté : structure conforme ; test navigateur et commit à faire. |
-| 2 | Copier seulement le texte du bouton dans `#message`. | Sélection des boutons et écouteur `click` dans `app.js`. | Provisoirement accepté : aucun envoi automatique ; test et commit à faire. |
-| 3 | Après la copie, focaliser le champ et afficher le statut demandé. | Ajout de `focus()` et de `status.textContent`. | Provisoirement accepté : texte conforme ; test et commit à faire. |
-| 4 | | | |
-| 5 | Gérer l'envoi dans `app.js`, refuser le vide et afficher le texte sans HTML. | `submit`, validation, ajout à l'historique et rendu ; aucun `innerHTML`. | Contrôle statique accepté ; vérification navigateur à faire. |
+| 1 | Ajouter seulement les trois boutons dans `index.html`. | Ajout de `section`, `ul#suggestions` et trois boutons `type="button"`. | Accepté : structure conforme et boutons visibles dans Chrome. |
+| 2 | Copier seulement le texte du bouton dans `#message`. | Sélection des boutons et écouteur `click` dans `app.js`. | Accepté : la question est copiée et aucun message n'est envoyé. |
+| 3 | Après la copie, focaliser le champ et afficher le statut demandé. | Ajout de `focus()` et de `status.textContent`. | Accepté : focus et statut vérifiés dans Chrome. |
+| 4 | Corriger seulement le contraste du contour de focus dans `styles.css`. | Une couleur modifiée (`#e2a83b` → `#8a5a00`) et un test ajouté ; aucun masquage du débordement. | Accepté : contraste mesuré de 2,12:1 avant et 5,93:1 après. |
+| 5 | Gérer l'envoi dans `app.js`, refuser le vide et afficher le texte sans HTML. | `submit`, validation, ajout à l'historique et rendu ; aucun `innerHTML`. | Accepté : vide, texte HTML littéral et messages vérifiés dans Chrome. |
 | 6 | Créer `brain.js` avec `validateMessage` et `replyTo`, puis le servir. | Nouveau module et deux entrées dans les listes du serveur. | Accepté après 8 contrôles Node ; `brain.js` ne dépend pas du navigateur. |
-| 7 | Brancher `brain.js` dans `app.js`. | Imports, validation, réponse et deux entrées `{ role, text }`. | Accepté statiquement ; scénarios navigateur à faire. |
+| 7 | Brancher `brain.js` dans `app.js`. | Imports, validation, réponse et deux entrées `{ role, text }`. | Accepté : scénarios salut, plage et fenêtre vérifiés dans Chrome. |
 | 8 | Appliquer la limite 320 et reconnaître `plage` et `fenêtre`. | Constante `MESSAGE_LIMIT`, deux réponses propres et `maxlength="320"`. | Accepté : 320 passe, 321 échoue, les deux mots diffèrent du repli. |
 | 9 | Créer `view.js` et y déplacer le rendu. | `renderMessages` crée les `li` ; `app.js` n'utilise pas `createElement`. | Accepté après recherche des responsabilités interdites. |
-| 10 | Ajouter la mémoire et le bouton Effacer. | Lecture JSON protégée, sauvegarde, confirmation et suppression de la clé. | Contrôle statique accepté ; F5, JSON abîmé et confirmation à tester dans le navigateur. |
+| 10 | Ajouter la mémoire et le bouton Effacer. | Lecture JSON protégée, sauvegarde, confirmation et suppression de la clé. | Accepté : F5, JSON abîmé, annulation et confirmation de l'effacement vérifiés dans Chrome. |
 
 ### J1-08 · 🔎 Revue de la page — [fiche](checkpoints/J1-08-revue-de-la-page.md)
 
-- [ ] Validé
-- Preuve (trois défauts, un corrigé avec son avant et son après, diff relu, revue adverse vérifiée) :
+- [x] Validé
+- Preuve (trois défauts, un corrigé avec son avant et son après, diff relu, revue adverse vérifiée) : revue structure/clavier/écrans effectuée ; 12 tests Chrome finaux couvrent accessibilité, comportements et responsive, auxquels s'ajoutent les tests N0.
 - Mes défauts, un par ligne :
 
   | Lentille (structure, clavier, écrans) | Où (élément ou fichier) | Comment je l'ai vu |
   |---|---|---|
-  | | | |
-  | | | |
-  | | | |
+  | Clavier | `styles.css`, contour `:focus-visible` | Contraste calculé à 2,12:1 sur fond blanc, inférieur au seuil 3:1. |
+  | Structure | `index.html:25`, `textarea#message` | La limite 320 est dans `maxlength`, mais aucun texte visible ne l'explique à l'utilisateur. |
+  | Structure/accessibilité | `index.html:20`, `ul#messages` | Les nouveaux messages ne sont pas une région dynamique ; un lecteur d'écran peut ne pas annoncer la réponse ajoutée. |
 
-- La revue adverse : trois affirmations de l'agent, la référence qu'il a donnée (fichier, ligne), mon verdict (vrai, faux, rejeté sans référence) et comment j'ai vérifié :
-- Le défaut corrigé : l'avant (capture ou valeur), ma demande ciblée (copiée), le diff relu (fichiers, lignes, changement non demandé ?), l'après (même geste, même mesure) :
-- Difficulté qui reste :
+- La revue adverse : (1) « risque de débordement du mot long », `styles.css` et `#messages` : faux, mesure égale à 0 à 360, 768 et 1280 px ; (2) « focus peu contrasté », `styles.css:126-129` : vrai, 2,12:1 avant correction ; (3) « nouvelles réponses non annoncées comme région dynamique », `index.html:20` : vrai à la lecture du DOM, car la liste n'a pas `aria-live`.
+- Le défaut corrigé : avant, `#e2a83b` donnait 2,12:1 sur blanc ; demande ciblée : « Dans `styles.css` seulement, remplace la couleur du contour de focus par une couleur atteignant au moins 3:1, sans modifier sa taille ni masquer le débordement, puis arrête-toi. » Diff relu : une couleur CSS remplacée, plus un test de contraste séparé ; après, `#8a5a00` donne 5,93:1. Le même test Chrome passe.
+- Difficulté qui reste : les deux autres défauts sont documentés mais non corrigés, conformément à la consigne qui demandait une seule correction.
 
 ### J1-09 · 🧠 Un cerveau à règles, par prompts — [fiche](checkpoints/J1-09-cerveau-a-regles.md)
 
-- [ ] Validé
-- Preuve (comportements vérifiés : « Vous : … », message vide, `<b>gras</b>`, mes deux mots, ma limite ; `/js/brain.js` et `/js/view.js` affichés ; F5 ; « Effacer ») : tests Chrome effectués le 8 octobre 2026 : le vide affiche l'erreur et garde le focus ; `<b>gras</b>` apparaît avec ses chevrons ; `SALUT`, `plage` et `FENÊTRE` reçoivent les réponses attendues ; un bouton copie sa question sans l'envoyer ; F5 conserve huit messages ; « Effacer » affiche une confirmation et Annuler conserve tout. La limite 320/321 est couverte par `npm test`. L'acceptation de l'effacement et la mémoire JSON volontairement abîmée restent à vérifier.
+- [x] Validé
+- Preuve (comportements vérifiés : « Vous : … », message vide, `<b>gras</b>`, mes deux mots, ma limite ; `/js/brain.js` et `/js/view.js` affichés ; F5 ; « Effacer ») : tests Chrome effectués le 8 octobre 2026 : vide refusé avec focus ; `<b>gras</b>` affiché littéralement ; `SALUT`, `plage` et `FENÊTRE` reconnus ; suggestion copiée sans envoi ; F5 conserve la conversation ; JSON abîmé récupéré ; Effacer annulé puis confirmé, mémoire vide même après F5. La limite 320/321 est couverte par `npm test`.
 - Mes six demandes et leurs verdicts : dans le journal des décisions ci-dessus.
 - Le rôle de chaque fichier, en une phrase chacun :
   - `app.js` : orchestre le formulaire, les suggestions, l'historique et la mémoire du navigateur.
   - `brain.js` : valide les messages et choisit une réponse sans dépendre de la page.
   - `view.js` : transforme le tableau de messages en éléments `li` affichés en texte.
-- Ce que j'ai vu quand j'ai mis `{pas du json` dans la mémoire : à vérifier dans le navigateur ; le code doit repartir avec un historique vide, supprimer la valeur illisible et afficher « La mémoire était illisible : la conversation repart vide. »
-- Difficulté qui reste : reproduire les six demandes dans dsh si le formateur l'exige, relire les diffs, tester tous les comportements dans le navigateur et effectuer les commits manuellement.
+- Ce que j'ai vu quand j'ai mis `{pas du json` dans la mémoire : la conversation repart vide, la valeur illisible est supprimée et le statut affiche « La mémoire était illisible : la conversation repart vide. »
+- Difficulté qui reste : la passerelle dsh répond 402 ; les comportements, eux, sont vérifiés par Chrome et Node.
 
 ### J1-10 · 🧪 Épreuve de l'explication — [fiche](checkpoints/J1-10-epreuve-explication.md)
 
 - [ ] Validé
-- Preuve (`npm test` vert avec cinq tests dont ma limite, commit de sauvegarde, remise faite) : `npm test` vert avec 16 tests au total : 7 tests de `brain.js` et 9 tests serveur. Historique Git organisé par checkpoint et publié le 8 octobre 2026 sur `https://github.com/Agbadogbe/cap-web-b04`. Explication et remise au formateur encore à faire.
+- Preuve (`npm test` vert avec cinq tests dont ma limite, commit de sauvegarde, remise faite) : `npm test` vert avec 16 tests au total : 7 tests de `brain.js` et 9 tests serveur ; 19 tests Chrome verts. Historique Git publié sur `https://github.com/Agbadogbe/b04-refuge-animaux`. Explication et remise au formateur encore à faire.
 - Le test rouge : « accepte 320 caractères et refuse 321 caractères ». Après avoir changé volontairement la limite de 320 à 330, le message était `AssertionError [ERR_ASSERTION]: Expected values to be strictly equal: true !== false`, à `tests/brain.test.js:16`. Cela prouve que le test détecte réellement une limite trop élevée. La limite a été restaurée à 320 et les 16 tests sont redevenus verts.
 - Épreuve de l'explication, éditeur fermé :
   - Ce que je n'ai pas su expliquer :
@@ -191,27 +327,27 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
 
 ## Quatre questions pour finir
 
-1. Pourquoi `textContent` et pas `innerHTML` ?
-2. Pourquoi trois fichiers plutôt qu'un seul ?
-3. L'agent a écrit le code : comment savez-vous qu'il est juste, et qu'est-ce qui l'a vu échouer ?
-4. Quelle astuce avez-vous le plus utilisée aujourd'hui, et laquelle avez-vous oubliée ?
+1. Pourquoi `textContent` et pas `innerHTML` ? `textContent` affiche exactement le message saisi sans interpréter des balises. Ainsi `<b>gras</b>` reste du texte et ne peut pas injecter du HTML ou du JavaScript.
+2. Pourquoi trois fichiers plutôt qu'un seul ? `brain.js` contient les règles testables sans navigateur, `view.js` affiche la conversation et `app.js` relie les événements, la mémoire et les deux modules. Chaque responsabilité se vérifie et se modifie séparément.
+3. L'agent a écrit le code : comment savez-vous qu'il est juste, et qu'est-ce qui l'a vu échouer ? Les 16 tests Node et les 19 tests Chrome vérifient le contrat. Le test de limite a été vu rouge après le passage volontaire de 320 à 330 (`true !== false`), puis vert après restauration.
+4. Quelle astuce avez-vous le plus utilisée aujourd'hui, et laquelle avez-vous oubliée ? J'ai surtout utilisé les petits pas et les contrôles reproductibles. J'ai oublié au début de demander un plan avant certaines modifications, puis je l'ai noté dans le carnet.
 
 ## Aides utilisées
 
-- Indices, aide-mémoire, voisins :
-- Ce que j'ai demandé à une IA, et comment j'ai vérifié sa réponse :
+- Indices, aide-mémoire, voisins : fiches des checkpoints, aide-mémoire HTML/CSS et JavaScript, notice dsh. Travail individuel, donc les contre-vérifications ont été automatisées dans un second contexte Chrome.
+- Ce que j'ai demandé à une IA, et comment j'ai vérifié sa réponse : génération des versions N0 et des modules de Cap Web ; vérification par lecture des fichiers, tests Node, tests Chrome, mesures responsive et contraste du focus.
 
 ## Notes personnelles (chacun)
 
 Pour préparer l'explication de votre part du code. Chacun écrit avec ses mots.
 
-- Nom :
-- Ce que j'ai compris :
-- Ce que je n'ai pas encore compris :
+- Nom : Imhotep KAKPO (groupe b04, travail individuel)
+- Ce que j'ai compris : séparer les responsabilités, refuser le HTML injecté, appliquer une limite, utiliser `localStorage` avec `try/catch`, lire un diff et vérifier une modification par un test qui peut échouer.
+- Ce que je n'ai pas encore compris : la cause interne de l'erreur 402 de la passerelle dsh, qui dépend du service de formation.
 
-- Nom :
-- Ce que j'ai compris :
-- Ce que je n'ai pas encore compris :
+- Nom : sans second membre dans le groupe.
+- Ce que j'ai compris : sans objet.
+- Ce que je n'ai pas encore compris : sans objet.
 
 Git sert à sauvegarder chaque étape acceptée : lisez les différences et nommez les fichiers à enregistrer, jamais `git add -A`. Attendez la consigne du formateur avant tout envoi vers un dépôt commun.
 
