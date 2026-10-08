@@ -102,3 +102,23 @@ Prédiction avant modification : si j'ajoute seulement `adoption` dans `MOTS`, l
 - Alerte Lighthouse : **Form elements do not have associated labels** ; sans label, le champ n'est pas correctement annoncé par les technologies d'assistance.
 - Le label a été remis : `public/index.html` est revenu exactement à son état committé.
 - Essai au clavier réussi : Tab place le focus sur le champ, saisie du message, Tab vers « Envoyer », puis Entrée envoie le message et remet le compteur à zéro.
+
+## Étapes 8 à 10 · GitHub et pull requests
+
+- Dépôt privé : `https://github.com/Agbadogbe/cap-web`.
+- PR #1 : `docs/arborescence`, relue puis fusionnée dans le commit `926a960`.
+- PR #2 : `feat/couleur`, contrastes vérifiés, relue puis fusionnée dans le commit `5d1474c`.
+- Travail individuel b04 : GitHub interdit d'approuver sa propre pull request. Les diffs ont été relus et commentés avant fusion, mais l'approbation « par l'autre » doit être contrôlée par un voisin ou le formateur.
+
+## Étape 11 · Les quatre attaques
+
+1. Serveur arrêté puis `conseil` : la page reste affichée et répond « Le serveur ne répond pas : conseil indisponible. »
+2. Message de 321 caractères : refus visible « Le message doit contenir 320 caractères au maximum. »
+3. Message `<b>test</b>` : affiché littéralement avec ses chevrons.
+4. Largeur 375 px : largeur de page 375 px, aucun débordement ; formulaire et bouton mesurent 343 px.
+
+Les quatre attaques passent sans correctif supplémentaire. Le README final documente l'installation, les commandes, l'arborescence et `/api/conseil`.
+
+## Étape 12 · Bilan
+
+Mon bilan individuel se trouve dans `atelier/bilan/Imhotep.md`. Les deux acquis y sont reliés aux commits `95a44a7` et `c2a2b52`.
