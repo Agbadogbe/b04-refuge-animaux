@@ -8,11 +8,11 @@ const MOTS = {
   fenêtre: 'Sécurisez les fenêtres pour éviter les chutes et les fugues de votre animal.'
 };
 
-const liste = Object.keys(MOTS).map((mot) => `« ${mot} »`).join(' et ');
+const listeMotsReconnus = Object.keys(MOTS).map((mot) => `« ${mot} »`).join(' et ');
 
 const REPONSES = {
   salut: 'Bonjour ! Je suis Cap Web, un assistant à règles. Écrivez « aide » pour voir ce que je sais faire.',
-  aide: `Je connais « salut », « aide », « test », et deux mots à moi : ${liste}.`,
+  aide: `Je connais « salut », « aide », « test », et deux mots à moi : ${listeMotsReconnus}.`,
   test: 'Test bien reçu : mes règles fonctionnent.',
   inconnu: 'Je ne connais pas encore cette demande. Écrivez « aide » pour voir ce que je sais faire.'
 };
