@@ -77,12 +77,14 @@ Les critères C1 à C5 de votre fonction, recopiés de la fiche :
 
 | Patch | Accepté ou refusé | Fichier et ligne | Raison |
 |---|---|---|---|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
+| 1 | Accepté | `public/js/brain.js`, lignes 18 et 47 à 48 | La description correspond au diff : `merci` reçoit une réponse distincte, la normalisation existante garde la casse et les espaces sans effet, et le nouveau test couvre ces règles. Les 45 tests passent. |
+| 2 | Refusé | `tests/contrat/brain.contrat.test.js`, lignes 69, 71 et 86 ; `public/js/brain.js`, ligne 38 | Le patch modifie et affaiblit un contrat protégé en supprimant les espaces des cas testés. `normaliser` ne fait plus `trim()`. Les tests restent verts précisément parce que le contrat a été diminué. |
+| 3 | Refusé | `public/js/view.js`, ligne 13 | `createContextualFragment` interprète tout le message utilisateur comme du HTML. Dans Chrome, `<b>gras</b>` perd ses chevrons et devient du gras malgré des tests verts. |
 
-Pour aller plus loin : le patch que vous avez corrigé, et ce que vous avez changé.
+Pour aller plus loin : j'ai corrigé le patch 3 dans `abordage/mon-patch.patch`. `segmenterGras` découpe uniquement la syntaxe `**texte**`, puis `renderMessages` crée des nœuds dont le contenu passe par `textContent` ou `createTextNode`. Les 46 tests passent ; dans Chrome, `**mot**` est en gras mais `<b>gras</b>` reste du texte littéral.
 
 ## Fin de journée
 
 Chacun, une phrase : ce que vous savez faire ce soir et que vous ne saviez pas faire ce matin. Relisez votre positionnement : une notion est-elle passée de « à renforcer » à « à l'aise » ?
+
+Imhotep : je sais maintenant lire un test rouge, corriger sa cause sans toucher au contrat, écrire un test avant le code et refuser un patch dangereux même lorsque tous ses tests sont verts. La notion « Tests » est passée de « à renforcer » à « à l'aise ».
