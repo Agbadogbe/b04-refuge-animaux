@@ -234,14 +234,14 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
 
 - [ ] Validé
 - Preuve (`dsh --version`, mode Read Only, modèle `capweb-ia`, `git status -- atelier` propre ; **jamais la clé**) : `dsh --version` affiche `0.1.5-rc.2` ; `DSH_HOME=/Users/imhotep/dsh-capweb` ; `DSH_TELEMETRY_MODE=DISABLED` ; `settings.yaml` configure `capweb-ia` et `defaultPreset: read-only` ; les deux fichiers de configuration ont les permissions `-rw-------`.
-- La consigne exacte envoyée à l'agent et sa réponse : en attente de la nouvelle clé agent ; aucune requête n'a été envoyée avec les clés exposées.
+- La consigne exacte envoyée à l'agent et sa réponse : `dsh --profile headless "Reponds uniquement OK"` ; aucune réponse du modèle, car la passerelle renvoie `402 Billing verification failed` après avoir reconnu `capweb-ia`.
 - Pour chaque fichier cité : existe ou non, description juste ou fausse, pourquoi ; et un fichier qu'il n'a pas cité : à compléter après le premier lancement authentifié.
 - Difficulté qui reste : le test headless atteint `capweb-ia`, mais la passerelle répond `402 Billing verification failed` ; le formateur doit corriger le quota ou la facturation avant `dsh web`.
 
 ### J1-06 · 🧱 Anatomie d'un prompt — [fiche](checkpoints/J1-06-anatomie-dun-prompt.md)
 
 - [ ] Validé
-- Preuve (deux prompts, deux résultats, grille remplie, commit du squelette) : squelette structuré créé ; comparaison avec le prompt vague, essai via dsh et commit encore en attente.
+- Preuve (deux prompts, deux résultats, grille remplie, commit du squelette) : squelette structuré créé, contrôlé et sauvegardé dans le commit J1-06/J1-07 ; l'essai vague via dsh reste impossible à cause du 402.
 - Prompt vague et ce que montre la page (trois lignes, fichiers touchés) : à exécuter dans dsh lorsque la fiche d'accès sera disponible. Prompt prévu : « Écris la page de Cap Web : un formulaire, une liste de messages et un statut. »
 - Prompt structuré, en six parties, tel qu'envoyé :
 
@@ -259,9 +259,9 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
   ```
 
 - Les hypothèses de l'agent, et ma réponse : hypothèses appliquées provisoirement : interface en français ; thème `refuge-animaux` ; aucune dépendance ; liste initialement vide ; limite fixée à 320. La pause d'approbation dans dsh reste à reproduire.
-- La grille (✔ ou ✘ et un mot, pour « vague » puis « structuré ») : à remplir après l'essai vague. Pour le structuré, contrôle statique provisoire : page et quatre identifiants ✔ ; seulement trois fichiers modifiés ✔ ; aucune bibliothèque ni adresse HTTPS ✔ ; test navigateur et `npm test` à confirmer.
+- La grille (✔ ou ✘ et un mot, pour « vague » puis « structuré ») : colonne vague bloquée par le 402. Pour le structuré : page et quatre identifiants ✔ ; fichiers attendus ✔ ; aucune bibliothèque ni adresse HTTPS ✔ ; test Chrome ✔ ; `npm test` ✔.
 - Une phrase : entre les deux résultats, ce qui a le plus changé, c'est à compléter après l'essai vague ; le résultat structuré suit déjà les identifiants, la limite et le critère d'arrêt imposés.
-- Difficulté qui reste : J1-05 et l'essai vague sont bloqués par l'absence de fiche d'accès ; lancer les contrôles dans le navigateur, exécuter `npm test` localement et faire le commit soi-même.
+- Difficulté qui reste : seul l'essai vague via dsh est bloqué par la réponse 402 de la passerelle ; les contrôles Chrome, Node et le commit sont terminés.
 
 ### J1-07 · 👣 Petits pas — [fiche](checkpoints/J1-07-petits-pas.md)
 
@@ -321,9 +321,9 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
 - Preuve (`npm test` vert avec cinq tests dont ma limite, commit de sauvegarde, remise faite) : `npm test` vert avec 16 tests au total : 7 tests de `brain.js` et 9 tests serveur ; 19 tests Chrome verts. Historique Git publié sur `https://github.com/Agbadogbe/b04-refuge-animaux`. Explication et remise au formateur encore à faire.
 - Le test rouge : « accepte 320 caractères et refuse 321 caractères ». Après avoir changé volontairement la limite de 320 à 330, le message était `AssertionError [ERR_ASSERTION]: Expected values to be strictly equal: true !== false`, à `tests/brain.test.js:16`. Cela prouve que le test détecte réellement une limite trop élevée. La limite a été restaurée à 320 et les 16 tests sont redevenus verts.
 - Épreuve de l'explication, éditeur fermé :
-  - Ce que je n'ai pas su expliquer :
-  - Ce que mon binôme n'a pas su expliquer :
-- Difficulté qui reste :
+  - Ce que je n'ai pas su expliquer : à compléter après le passage oral avec le formateur.
+  - Ce que mon binôme n'a pas su expliquer : sans objet, travail individuel.
+- Difficulté qui reste : passage oral et remise du lien au formateur.
 
 ## Quatre questions pour finir
 
