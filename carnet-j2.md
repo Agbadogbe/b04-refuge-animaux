@@ -88,3 +88,9 @@ Pour aller plus loin : j'ai corrigé le patch 3 dans `abordage/mon-patch.patch`.
 Chacun, une phrase : ce que vous savez faire ce soir et que vous ne saviez pas faire ce matin. Relisez votre positionnement : une notion est-elle passée de « à renforcer » à « à l'aise » ?
 
 Imhotep : je sais maintenant lire un test rouge, corriger sa cause sans toucher au contrat, écrire un test avant le code et refuser un patch dangereux même lorsque tous ses tests sont verts. La notion « Tests » est passée de « à renforcer » à « à l'aise ».
+
+# Carnet de bord · J3
+
+## Étape 1 · Le troisième mot
+
+Prédiction avant modification : si j'ajoute seulement `adoption` dans `MOTS`, la commande `aide` citera bien le nouveau mot dans la liste, mais annoncera encore « deux mots », car ce nombre est écrit en dur dans la réponse.

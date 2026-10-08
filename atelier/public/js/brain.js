@@ -5,14 +5,15 @@ export const LIMITE = 320;
 
 const MOTS = {
   plage: 'Avant une sortie à la plage, vérifiez que le lieu accepte les animaux et prévoyez de l’eau.',
-  fenêtre: 'Sécurisez les fenêtres pour éviter les chutes et les fugues de votre animal.'
+  fenêtre: 'Sécurisez les fenêtres pour éviter les chutes et les fugues de votre animal.',
+  adoption: 'Avant une adoption, vérifiez que les besoins de l’animal correspondent à votre mode de vie.'
 };
 
 const listeMotsReconnus = Object.keys(MOTS).map((mot) => `« ${mot} »`).join(' et ');
 
 const REPONSES = {
   salut: 'Bonjour ! Je suis Cap Web, un assistant à règles. Écrivez « aide » pour voir ce que je sais faire.',
-  aide: `Je connais « salut », « aide », « test », et deux mots à moi : ${listeMotsReconnus}.`,
+  aide: `Je connais « salut », « aide », « test », et ${Object.keys(MOTS).length} mots à moi : ${listeMotsReconnus}.`,
   test: 'Test bien reçu : mes règles fonctionnent.',
   inconnu: 'Je ne connais pas encore cette demande. Écrivez « aide » pour voir ce que je sais faire.'
 };
