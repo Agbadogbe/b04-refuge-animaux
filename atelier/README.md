@@ -32,6 +32,12 @@ Pour exécuter tous les tests automatisés :
 npm test
 ```
 
+Pour vérifier aussi la qualité du code :
+
+```sh
+npm run lint
+```
+
 Les tests du contrat se lancent seuls avec :
 
 ```sh
@@ -60,3 +66,21 @@ atelier/
 ├── browser/              # Tests de l’interface avec Playwright
 └── scripts/              # Contrôles de construction et de dépendances
 ```
+
+## Route de conseil
+
+Le serveur expose `GET /api/conseil`. Cette route répond avec un objet JSON contenant un conseil choisi parmi trois conseils pour l'accueil et les besoins d'un animal :
+
+```json
+{
+  "conseil": "Prévoyez un espace calme où l’animal pourra se reposer sans être dérangé."
+}
+```
+
+Avec le serveur lancé, la route peut être contrôlée dans un navigateur ou avec :
+
+```sh
+curl http://127.0.0.1:3000/api/conseil
+```
+
+Dans l'interface, envoyez `conseil` pour afficher une réponse du serveur. Si le serveur ne répond pas, Cap Web affiche un message d'indisponibilité sans bloquer la page.
