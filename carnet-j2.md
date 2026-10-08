@@ -55,15 +55,21 @@ Pour aller plus loin, avec l'agent, les demandes du formateur :
 
 | À remplir | Votre réponse |
 |---|---|
-| Fonction tirée | |
-| Le rouge vu (message exact) | |
-| Identifiant du commit `test:` | |
-| Identifiant du commit `feat:` | |
-| Casse volontaire : la ligne changée | |
-| Casse volontaire : le test devenu rouge | |
-| Pour aller plus loin : la deuxième fonction | |
+| Fonction tirée | F1 `synonyme(message)` |
+| Le rouge vu (message exact) | `SyntaxError: The requested module '../public/js/brain.js' does not provide an export named 'synonyme'` |
+| Identifiant du commit `test:` | `1d9297a` |
+| Identifiant du commit `feat:` | `63bc78e` |
+| Casse volontaire : la ligne changée | Dans `synonyme`, `return texte;` a été remplacé temporairement par `return '';`. |
+| Casse volontaire : le test devenu rouge | `C4 : normalise un autre message` avec `'' !== 'météo'` |
+| Pour aller plus loin : la deuxième fonction | Non réalisée. |
 
 Les critères C1 à C5 de votre fonction, recopiés de la fiche :
+
+- C1 : `'coucou'`, `'hello'` et `'bonsoir'` donnent `'salut'`.
+- C2 : `'help'` et `'sos'` donnent `'aide'`.
+- C3 : la casse et les espaces autour ne comptent pas, `'  HELLO '` donne `'salut'`.
+- C4 : un autre message revient en minuscules, sans les espaces autour, `'  Météo '` donne `'météo'`.
+- C5 : ce qui n'est pas du texte (`undefined`, `null`, `42`) donne `''`, sans erreur.
 
 ## R4 · La revue de code
 
