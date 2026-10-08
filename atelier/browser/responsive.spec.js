@@ -23,13 +23,13 @@ for (const width of [360, 768, 1280]) {
     await page.setViewportSize({ width, height: 800 });
     await page.goto('/');
     await page.locator('#messages').evaluate((list) => {
-      const item = document.createElement('li');
+      const item = globalThis.document.createElement('li');
       item.textContent = `Vous : ${'a'.repeat(60)}`;
       list.append(item);
     });
 
     const overflow = await page.evaluate(() => (
-      document.documentElement.scrollWidth - document.documentElement.clientWidth
+      globalThis.document.documentElement.scrollWidth - globalThis.document.documentElement.clientWidth
     ));
     expect(overflow).toBe(0);
     await expect(page.locator('#message')).toBeVisible();
@@ -44,7 +44,7 @@ test('montre un focus clavier visible sur les contrôles', async ({ page }) => {
     await page.keyboard.press('Tab');
     const focused = page.locator(':focus');
     await expect(focused).toBeVisible();
-    const outline = await focused.evaluate((element) => getComputedStyle(element).outlineStyle);
+    const outline = await focused.evaluate((element) => globalThis.getComputedStyle(element).outlineStyle);
     expect(outline).not.toBe('none');
   }
 });
@@ -54,7 +54,7 @@ test('le contour de focus atteint un contraste de 3 pour 1', async ({ page }) =>
   await page.keyboard.press('Tab');
   const focused = page.locator(':focus');
   const colors = await focused.evaluate((element) => {
-    const style = getComputedStyle(element);
+    const style = globalThis.getComputedStyle(element);
     return { outline: style.outlineColor, background: style.backgroundColor };
   });
 

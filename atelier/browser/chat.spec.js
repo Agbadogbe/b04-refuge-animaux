@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => globalThis.localStorage.clear());
   await page.reload();
 });
 
@@ -41,12 +41,12 @@ test('copie une suggestion sans l’envoyer', async ({ page }) => {
 });
 
 test('résiste à une mémoire corrompue', async ({ page }) => {
-  await page.evaluate(() => localStorage.setItem('capweb.historique', '{pas du json'));
+  await page.evaluate(() => globalThis.localStorage.setItem('capweb.historique', '{pas du json'));
   await page.reload();
 
   await expect(page.locator('#messages li')).toHaveCount(0);
   await expect(page.getByRole('status')).toHaveText('La mémoire était illisible : la conversation repart vide.');
-  await expect(page.evaluate(() => localStorage.getItem('capweb.historique'))).resolves.toBeNull();
+  await expect(page.evaluate(() => globalThis.localStorage.getItem('capweb.historique'))).resolves.toBeNull();
 });
 
 test('annule puis confirme l’effacement', async ({ page }) => {
@@ -60,7 +60,7 @@ test('annule puis confirme l’effacement', async ({ page }) => {
   page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: 'Effacer la conversation' }).click();
   await expect(page.locator('#messages li')).toHaveCount(0);
-  await expect(page.evaluate(() => localStorage.getItem('capweb.historique'))).resolves.toBeNull();
+  await expect(page.evaluate(() => globalThis.localStorage.getItem('capweb.historique'))).resolves.toBeNull();
 
   await page.reload();
   await expect(page.locator('#messages li')).toHaveCount(0);

@@ -14,7 +14,7 @@ async function load(page, filename) {
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => globalThis.localStorage.clear());
 });
 
 test('chatbot-v1 répond sur le thème et laisse le navigateur refuser le vide', async ({ page }) => {
@@ -52,7 +52,7 @@ test('chatbot-v3 garde la conversation mais casse sur un JSON invalide', async (
   await load(page, 'chatbot-v3.html');
   await expect(page.locator('#messages li')).toHaveCount(2);
 
-  await page.evaluate(() => localStorage.setItem('refuge.chat.v3', '{pas du json'));
+  await page.evaluate(() => globalThis.localStorage.setItem('refuge.chat.v3', '{pas du json'));
   const errors = [];
   page.once('pageerror', error => errors.push(error.message));
   await load(page, 'chatbot-v3.html');
@@ -60,7 +60,7 @@ test('chatbot-v3 garde la conversation mais casse sur un JSON invalide', async (
 });
 
 test('chatbot-v4 résiste au JSON invalide et copie une suggestion', async ({ page }) => {
-  await page.evaluate(() => localStorage.setItem('refuge.chat.v4', '{pas du json'));
+  await page.evaluate(() => globalThis.localStorage.setItem('refuge.chat.v4', '{pas du json'));
   await load(page, 'chatbot-v4.html');
   await page.getByRole('button', { name: 'Comment adopter un animal au refuge ?' }).click();
   await expect(page.locator('#message')).toHaveValue('Comment adopter un animal au refuge ?');
