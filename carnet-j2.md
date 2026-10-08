@@ -94,3 +94,11 @@ Imhotep : je sais maintenant lire un test rouge, corriger sa cause sans toucher 
 ## Étape 1 · Le troisième mot
 
 Prédiction avant modification : si j'ajoute seulement `adoption` dans `MOTS`, la commande `aide` citera bien le nouveau mot dans la liste, mais annoncera encore « deux mots », car ce nombre est écrit en dur dans la réponse.
+
+## Étape 3 · Accessibilité avec Lighthouse
+
+- Score avec le label associé au champ : **100/100**.
+- Score après retrait temporaire du label : **93/100**.
+- Alerte Lighthouse : **Form elements do not have associated labels** ; sans label, le champ n'est pas correctement annoncé par les technologies d'assistance.
+- Le label a été remis : `public/index.html` est revenu exactement à son état committé.
+- Essai au clavier réussi : Tab place le focus sur le champ, saisie du message, Tab vers « Envoyer », puis Entrée envoie le message et remet le compteur à zéro.
