@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cap Web — Refuge pour animaux</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <p class="eyebrow">Refuge pour animaux</p>
+  </header>
+
+  <main>
+    <h1>Cap Web</h1>
+    <p>Posez une question pour préparer une adoption, une visite ou mieux comprendre les besoins d'un animal.</p>
+
+    <section aria-labelledby="conversation-title">
+      <h2 id="conversation-title">Conversation</h2>
+      <ul id="messages" aria-label="Messages de la conversation"></ul>
+    </section>
+
+    <form id="chat-form">
+      <label for="message">Votre message</label>
+      <textarea id="message" name="message" maxlength="320" rows="5"></textarea>
+      <div class="form-actions">
+        <button type="submit">Envoyer</button>
+        <button type="button" id="effacer">Effacer la conversation</button>
+      </div>
+    </form>
+
+    <section aria-labelledby="suggestions-title">
+      <h2 id="suggestions-title">Questions proposées</h2>
+      <ul id="suggestions">
+        <li><button type="button">Comment adopter un animal au refuge ?</button></li>
+        <li><button type="button">Quand peut-on visiter le refuge ?</button></li>
+        <li><button type="button">Quels sont les besoins essentiels d'un animal adopté ?</button></li>
+      </ul>
+    </section>
+
+    <p id="status" role="status"></p>
+  </main>
+
+  <footer>
+    <p>Cap Web · projet refuge-animaux</p>
+  </footer>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

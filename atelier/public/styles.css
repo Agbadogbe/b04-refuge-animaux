@@ -1,0 +1,142 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 0;
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+  color: #203128;
+  background: #f3f0e8;
+}
+
+.site-header,
+main,
+footer {
+  width: min(48rem, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.site-header {
+  padding-top: 2rem;
+}
+
+.eyebrow {
+  margin-bottom: 0;
+  color: #397052;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+main {
+  margin-block: 1rem;
+  padding: clamp(1rem, 4vw, 2rem);
+  border-radius: 1rem;
+  background: white;
+  box-shadow: 0 .75rem 2rem rgb(32 49 40 / 10%);
+}
+
+h1 {
+  margin-top: 0;
+  color: #285d43;
+}
+
+#messages {
+  min-height: 10rem;
+  padding: 1rem 1rem 1rem 2rem;
+  border: 1px solid #bdccc1;
+  border-radius: .75rem;
+  overflow-wrap: anywhere;
+  background: #f9fbf9;
+}
+
+#chat-form {
+  display: grid;
+  gap: .75rem;
+  margin-top: 1.5rem;
+}
+
+.form-actions,
+#suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+#suggestions {
+  padding: 0;
+  list-style: none;
+}
+
+#suggestions li {
+  display: flex;
+}
+
+#suggestions button {
+  height: 100%;
+  color: #285d43;
+  background: #e3efe7;
+  text-align: left;
+}
+
+#suggestions button:hover {
+  background: #d3e5d9;
+}
+
+label {
+  font-weight: 700;
+}
+
+textarea {
+  width: 100%;
+  min-width: 0;
+  padding: .75rem;
+  border: 1px solid #66786b;
+  border-radius: .5rem;
+  font: inherit;
+  resize: vertical;
+}
+
+button {
+  justify-self: start;
+  padding: .7rem 1.1rem;
+  border: 0;
+  border-radius: .5rem;
+  color: white;
+  background: #285d43;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1e4934;
+}
+
+#effacer {
+  background: #74382c;
+}
+
+#effacer:hover {
+  background: #5f2d24;
+}
+
+button:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #e2a83b;
+  outline-offset: 3px;
+}
+
+#status {
+  min-height: 1.5rem;
+  margin-bottom: 0;
+  color: #74382c;
+}
+
+footer {
+  padding-bottom: 2rem;
+  color: #516056;
+  font-size: .9rem;
+}
