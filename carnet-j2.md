@@ -39,6 +39,8 @@ Avec l'agent : je n'ai pas utilisé dsh pour ce round ; j'ai lu les messages des
 
 Pour aller plus loin : `liste` a été renommé en `listeMotsReconnus`, car le nouveau nom indique précisément ce que contient la variable.
 
+Contrôle final : le contrat affiche `pass 15`, la suite complète affiche `pass 49` et les 8 tests navigateur Playwright passent. Dans Chrome, `<b>gras</b>` reste affiché avec ses chevrons ; `PLAGE` et `FENÊTRE` reçoivent chacun leur réponse propre.
+
 ## R2 · Documenter le projet
 
 Vos trois documents sont dans `atelier` : `README.md`, `SPEC.md` et `AGENTS.md`. Rien à recopier ici.
