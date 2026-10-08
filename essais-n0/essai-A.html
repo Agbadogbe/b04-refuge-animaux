@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assistant du refuge — essai A</title>
+  <style>
+    body { margin: 0; padding: 2rem 1rem; font: 1rem system-ui; color: #203126; background: #eef5ef; }
+    main { max-width: 42rem; margin: auto; padding: 1.5rem; border-radius: 1rem; background: white; }
+    #messages { min-height: 12rem; padding: 1rem; border: 1px solid #aac0ae; list-style: none; }
+    form { display: grid; gap: .75rem; } input, button { padding: .75rem; font: inherit; }
+    button { color: white; border: 0; background: #286044; cursor: pointer; }
+  </style>
+</head>
+<body><main>
+  <h1>Assistant du refuge</h1>
+  <ul id="messages" aria-label="Conversation"></ul>
+  <form id="form"><label for="question">Votre question</label><input id="question"><button>Envoyer</button></form>
+</main>
+<script>
+  const form = document.querySelector('#form');
+  const input = document.querySelector('#question');
+  const list = document.querySelector('#messages');
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    const user = document.createElement('li');
+    user.textContent = `Vous : ${text}`;
+    const bot = document.createElement('li');
+    bot.textContent = text.toLowerCase().includes('adopt')
+      ? "Refuge : Venez rencontrer l'animal et discuter avec notre équipe."
+      : 'Refuge : Je peux répondre aux questions sur les adoptions et les visites.';
+    list.append(user, bot);
+    input.value = '';
+  });
+</script>
+</body></html>

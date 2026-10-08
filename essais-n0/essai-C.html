@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Refuge animaux — essai C</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 1rem; font: 1rem system-ui; color: #17251d; background: #dce9df; }
+    main { max-width: 44rem; margin: auto; }
+    .card { padding: 1rem; border-radius: .8rem; background: white; }
+    #messages { min-height: 15rem; max-height: 55vh; overflow: auto; padding: 0; list-style: none; }
+    #messages li { margin: .6rem 0; padding: .7rem; overflow-wrap: anywhere; background: #f1f5f2; }
+    form { display: grid; gap: .6rem; } textarea { min-height: 5rem; padding: .7rem; font: inherit; }
+    .actions { display: flex; gap: .6rem; } button { padding: .7rem 1rem; border: 0; color: white; background: #315f43; }
+    #clear { background: #784035; }
+  </style>
+</head>
+<body><main><h1>Bienvenue au refuge</h1><div class="card">
+  <ul id="messages" aria-label="Conversation"></ul>
+  <form id="form"><label for="question">Comment pouvons-nous vous aider ?</label><textarea id="question"></textarea><div class="actions"><button>Envoyer</button><button type="button" id="clear">Effacer</button></div></form>
+  <p id="status" role="status"></p>
+</div></main>
+<script>
+  const key = 'refuge.essai-c';
+  const list = document.querySelector('#messages');
+  const input = document.querySelector('#question');
+  let history = JSON.parse(localStorage.getItem(key) || '[]');
+  const render = () => list.replaceChildren(...history.map(message => {
+    const item = document.createElement('li'); item.textContent = message; return item;
+  }));
+  document.querySelector('#form').addEventListener('submit', event => {
+    event.preventDefault();
+    const text = input.value.trim();
+    if (!text) { document.querySelector('#status').textContent = 'La question est vide.'; return; }
+    history.push(`Vous : ${text}`, `Refuge : ${/adopt/i.test(text) ? 'Rencontrez d’abord l’animal au refuge.' : 'Je peux vous guider sur les visites, l’adoption et les besoins.'}`);
+    localStorage.setItem(key, JSON.stringify(history)); render(); input.value = '';
+  });
+  document.querySelector('#clear').addEventListener('click', () => { history = []; localStorage.removeItem(key); render(); });
+  render();
+</script>
+</body></html>

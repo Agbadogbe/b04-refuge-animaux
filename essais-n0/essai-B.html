@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patte & Refuge — essai B</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #fff7e8; color: #3d3025; }
+    header { padding: 2rem 1rem; text-align: center; color: white; background: #d06a3b; }
+    main { width: min(46rem, calc(100% - 2rem)); margin: 1rem auto; }
+    #chat { min-height: 16rem; padding: 1rem; border-radius: .75rem; background: white; box-shadow: 0 .4rem 1.5rem #0002; }
+    .message { margin: .6rem 0; padding: .7rem; border-radius: .5rem; background: #f2eee7; }
+    form { display: flex; gap: .5rem; margin-top: 1rem; }
+    input { min-width: 0; flex: 1; padding: .8rem; } button { padding: .8rem; border: 0; color: white; background: #23765a; }
+  </style>
+</head>
+<body><header><h1>Patte & Refuge</h1><p>Adopter, visiter, comprendre</p></header><main>
+  <section id="chat" aria-label="Conversation"><p class="message">Bonjour, que souhaitez-vous savoir ?</p></section>
+  <form id="form"><label for="question">Question</label><input id="question" placeholder="Ex. Peut-on visiter ?"><button>Envoyer</button></form>
+</main>
+<script>
+  const replies = [
+    ['visite', 'Les visites se font pendant les horaires d’ouverture annoncés par le refuge.'],
+    ['adopt', 'Une adoption commence par une rencontre et un échange avec l’équipe.'],
+    ['besoin', 'Chaque animal a besoin de soins, de temps, d’activité et d’un environnement adapté.']
+  ];
+  document.querySelector('#form').onsubmit = event => {
+    event.preventDefault();
+    const input = document.querySelector('#question');
+    const text = input.value.trim();
+    if (text === '') { alert('Veuillez écrire une question.'); return; }
+    const reply = replies.find(([word]) => text.toLowerCase().includes(word));
+    document.querySelector('#chat').insertAdjacentHTML('beforeend', `<p class="message"><b>Vous :</b> ${text}</p><p class="message"><b>Refuge :</b> ${reply ? reply[1] : 'Contactez le refuge pour une réponse adaptée.'}</p>`);
+    input.value = '';
+  };
+</script>
+</body></html>
