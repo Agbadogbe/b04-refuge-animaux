@@ -27,11 +27,17 @@ Les tests rouges du départ, et ce que vous en avez fait :
 
 | Test rouge | Cause trouvée (une phrase) | Fichier | Message du commit `fix:` |
 |---|---|---|---|
-| | | | |
+| refuse le vide et les espaces seuls | Le code vérifiait le vide avant de retirer les espaces. | `public/js/brain.js` | `fix: refuser les messages composés uniquement d'espaces` |
+| accepte 320 caractères et refuse 321 | La limite était codée en dur à 280 au lieu d'utiliser `LIMITE`. | `public/js/brain.js` | `fix: appliquer la limite personnelle de 320 caractères` |
+| mesure la longueur après avoir retiré les espaces | La comparaison avec 280 refusait encore un message valide de 320 caractères après nettoyage. | `public/js/brain.js` | `fix: appliquer la limite personnelle de 320 caractères` |
+| ignore la casse et les espaces autour | `replyTo` convertissait en minuscules mais ne retirait pas les espaces. | `public/js/brain.js` | `fix: ignorer la casse et les espaces dans les réponses` |
+| reconnaît les deux mots du cahier personnel, quelles que soient la casse et les espaces autour | Les mots personnels entourés d'espaces ne correspondaient à aucune clé de `MOTS`. | `public/js/brain.js` | `fix: ignorer la casse et les espaces dans les réponses` |
+| répond à une phrase inconnue par un repli distinct | Le repli réutilisait exactement la réponse de `aide`. | `public/js/brain.js` | `fix: distinguer la réponse aux messages inconnus` |
+| view.js affiche du texte et ne décide pas des réponses | L'affichage utilisait `innerHTML`, qui interprétait le message comme du HTML. | `public/js/view.js` | `fix: afficher les messages sans injecter de HTML` |
 
-Avec l'agent : ce qu'il a proposé et que vous avez refusé, et pourquoi.
+Avec l'agent : je n'ai pas utilisé dsh pour ce round ; j'ai lu les messages des tests, corrigé le code à la main et relu chaque diff.
 
-Pour aller plus loin : le nom renommé par votre commit `refactor:`, et pourquoi le nouveau est plus clair.
+Pour aller plus loin : `liste` a été renommé en `listeMotsReconnus`, car le nouveau nom indique précisément ce que contient la variable.
 
 ## R2 · Documenter le projet
 
