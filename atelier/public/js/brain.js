@@ -48,3 +48,18 @@ export function replyTo(message) {
   // Message inconnu : on rappelle ce que Cap Web sait faire.
   return REPONSES.inconnu;
 }
+
+export function synonyme(message) {
+  if (typeof message !== 'string') {
+    return '';
+  }
+
+  const texte = message.trim().toLowerCase();
+  if (['coucou', 'hello', 'bonsoir'].includes(texte)) {
+    return 'salut';
+  }
+  if (['help', 'sos'].includes(texte)) {
+    return 'aide';
+  }
+  return texte;
+}
